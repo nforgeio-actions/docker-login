@@ -47,7 +47,7 @@ try
 
     $accounts = $accounts.Split(",")
 
-    ForEach (var $account in $accounts)
+    ForEach ($account in $accounts)
     {
         $account = $account.Trim();
         $fields  = $account.Split(":", 2)
