@@ -32,12 +32,34 @@ Pop-Location | Out-Null
 
 # Fetch the inputs
 
-$server      = Get-ActionInput "server"      $true
-$credentials = Get-ActionInput "credentials" $true
+$accounts = Get-ActionInput "accounts" $true
 
 try
 {
-    Login-Docker $server $credentials
+    # [accounts] should be passed with one or more comma separated logins formatted like  
+    # 
+    #       SERVER:CREDENTIAL
+    #
+    # where:
+    #
+    #       SERVER      - specifies the registry (typically docker.io or ghcr.io)
+    #       CREDENTIAL  - specifies the name of the 1Password login (typically DOCKER_LOGIN or GITHUB_PAT)
+
+    $accounts = $accounts.Split(",")
+
+    ForEach (var $account in $accounts)
+    {
+        $account = $account.Trim();
+        $fields  = $account.Split(":", 2)
+
+        if ($fields.Length -ne 2)
+        {
+            Write-ActionWarning $"Invalid login: $account"
+            Continue
+        }
+
+        Login-Docker $fields[0].Trim() $fields[1].Trim()
+    }
 }
 catch
 {

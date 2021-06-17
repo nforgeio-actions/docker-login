@@ -8,19 +8,16 @@
 # formal written and signed agreement with neonFORGE, LLC.
 
 #------------------------------------------------------------------------------
-# Clears the runner state including the GITHUB_WORKSPACE directory.
+# Logs Docker into one or more accounts.
 #
 # NOTE: You must run the [setup-node] action before this to ensure that
 #       Node.js is configured on the runner.
 
 name: docker-login
-description: "Logs into Docker using credentials stored in 1Password."
+description: "Logs into one or more Docker accounts."
 inputs:
-  server:
-    description: "Identifies the target registry service (typically ghcr.io or docker.io)"
-    required: true
-  credentials:
-    description: "Identifies the login credentials stored in 1Password (typically GITHUB_PAT)"
+  accounts:
+    description: "Specifies one or more accounts like: docker.io:DOCKER_LOGIN, ghcr.io:GITHUB_PAT"
     required: true
 runs:
   using: node12
