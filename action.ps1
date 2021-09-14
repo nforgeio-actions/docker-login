@@ -47,7 +47,7 @@ try
 
     $accounts = $accounts.Split(",")
 
-    ForEach ($account in $accounts)
+    foreach ($account in $accounts)
     {
         $account = $account.Trim();
         $fields  = $account.Split(":", 2)
@@ -55,7 +55,7 @@ try
         if ($fields.Length -ne 2)
         {
             Write-ActionWarning $"Invalid login: $account"
-            Continue
+            continue
         }
 
         Login-Docker $fields[0].Trim() $fields[1].Trim()
